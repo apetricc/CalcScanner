@@ -1,0 +1,5 @@
+These are words here read
+ ( alright :=
+ did you see it?  +
+ - * (  ) did it work?
+$$
