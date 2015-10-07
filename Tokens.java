@@ -17,6 +17,7 @@ public interface Tokens {
     final int MULOP = '*';
     final int LPAREN = '(';
     final int RPAREN = ')';
+    final int EOP = 999;
 
 
 }

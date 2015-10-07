@@ -114,52 +114,51 @@ import java.io.IOException;
  *
  *
  */
-public class CalcParser extends CalcScanner{
-    private int token;
+public class CalcParser implements Tokens{
+    
+    private CalcScanner myScanner;
+    private int lookahead;
 
-    public CalcParser(int lookahead) throws IOException {
+    public CalcParser(String file) throws IOException {
+        myScanner = new CalcScanner(file);
         lookahead = CalcScanner.nextToken();
     }
 
-
-    public CalcParser(String fileName) throws IOException {
-        super(fileName);
-    }
-    CalcParser myParser = new CalcParser(CalcScanner.nextToken());
-    int lookahead = CalcScanner.nextToken();
+    /**
+    private String file;
+    CalcParser myParser = new CalcParser(file);
+    */
 
     public void parse() throws IOException {
-        try {
-            int lookahead = CalcScanner.nextToken();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        program();
+        lookahead = CalcScanner.nextToken();
+        program(lookahead);
         System.out.println("Parse success!");
     }
 
-    private void program() {
+    private void program(int lookahead) throws IOException {
+/**
         if (lookahead == VAR) {
             variable_list();
         }
+ */
         stmt_list();
         match(EOP);
     }
-
-    private void variable_list() {
+/**
+    private void variable_list() throws IOException {
         match(VAR);
         while (lookahead == ID) {
             match(ID);
         }
         match(ENDVAR);
     }
-
-    private void stmt_list() {
+*/
+    private void stmt_list() throws IOException {
         while (lookahead == ID || lookahead == READ || lookahead == WRITE)
             stmt();
     }
 
-    private void stmt() {
+    private void stmt() throws IOException {
         if (lookahead == ID) {
             match(ID);
             match(ASSIGN);
@@ -170,10 +169,10 @@ public class CalcParser extends CalcScanner{
         } else if (lookahead == WRITE) {
             match(WRITE);
             expr();
-        } else error();
+        } else error(lookahead);
     }
 
-    private void expr() {
+    private void expr() throws IOException {
         term();
         while (lookahead == ADDOP) {
             match(ADDOP);
@@ -181,7 +180,7 @@ public class CalcParser extends CalcScanner{
         }
     }
 
-    private void term() {
+    private void term() throws IOException {
         factor();
         while (lookahead == MULOP) {
             match(MULOP);
@@ -189,7 +188,7 @@ public class CalcParser extends CalcScanner{
         }
     }
 
-    private void factor() {
+    private void factor() throws IOException {
         if (lookahead == LPAREN) {
             match(LPAREN);
             expr();
@@ -198,16 +197,17 @@ public class CalcParser extends CalcScanner{
             match(ID);
         } else if (lookahead == NUM) {
             match(NUM);
-        } else error();
+        } else error(lookahead);
     }
 
-    private void match(token) throws IOException {
-        if (lookahead == token) {
+    private void match(int expected) throws IOException {
+        if (lookahead == expected) {
             lookahead = CalcScanner.nextToken();
-        } else error();
+        } else error(expected);
     }
-    private void error() {
-        System.out.println("Error encountered. Exiting program.");
+    private void error(int expected) {
+
+        System.out.println("Error.  Token " + expected + " was expected " + lookahead + " was received.");
     }
 
 }// class CalcParse end.

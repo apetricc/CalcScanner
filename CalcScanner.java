@@ -69,7 +69,7 @@ public class CalcScanner implements Tokens {
                 if (c != '$') {
                     return -1;
                 }
-                return ENDVAR;
+                return EOP;
             }
 
 
