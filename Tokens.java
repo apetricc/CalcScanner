@@ -3,14 +3,20 @@
  */
 public interface Tokens {
 
-    final int NUMBER = 500;
+    final int NUM = 500;
     final int ERROR = -1;
-    final static int ASSIGN = 5555;
+    final int ASSIGN = 5555;
     final int READ = 7777;
     final int WRITE = 8888;
     final int ID = 333;
-    final int DOUBLE_DOLLAR = 444;
+    final int ENDVAR = 444;
     final int EOF = 600;
     final int COMMENT = 222;
+    final int VAR = 111;
+    final int ADDOP = '+';
+    final int MULOP = '*';
+    final int LPAREN = '(';
+    final int RPAREN = ')';
+
 
 }

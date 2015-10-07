@@ -13,7 +13,7 @@ public class CalcScanner implements Tokens {
 
     String fileName;
     FileReader reader;
-    PushbackReader pbReader;
+    static PushbackReader pbReader;
 
     public CalcScanner(String fileName) throws IOException {
         this.fileName = fileName;
@@ -29,7 +29,7 @@ public class CalcScanner implements Tokens {
 
     }
 
-    public int nextToken() throws IOException {
+    public static int nextToken() throws IOException {
 
         int c = 0;
         StringBuilder lexeme = new StringBuilder("");
@@ -69,7 +69,7 @@ public class CalcScanner implements Tokens {
                 if (c != '$') {
                     return -1;
                 }
-                return DOUBLE_DOLLAR;
+                return ENDVAR;
             }
 
 
@@ -109,7 +109,7 @@ public class CalcScanner implements Tokens {
                 }
                 pbReader.unread(c);
                 //if (Character.isLetter(c))
-                return NUMBER;
+                return NUM;
             }
 
             if (Character.isLetter(c) || Character.isDigit(c)) {
@@ -145,20 +145,6 @@ public class CalcScanner implements Tokens {
         if (lexeme.toString().equals("write")) return WRITE;
         return ID;
     }
-
-/*
-            public void readComment() {
-                c = pbReader.read();
-                String comment = "";
-                while ((char) c != '*') {
-                    lexeme.append((char) c);
-                    comment += lexeme;
-                    c = pbReader.read();
-                }
-            }    
-            */
-
-
     /**
 
     public static void main(String[] args) throws IOException {
